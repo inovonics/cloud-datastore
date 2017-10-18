@@ -1,2 +1,2 @@
-redis==2.10.6
-redpipe==1.0.4
+redis==2.10
+redpipe==1.0
