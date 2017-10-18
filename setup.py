@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # === IMPORTS ===
-from distutils.core import setup
+from setuptools import setup
 
 # === GLOBALS ===
 
@@ -17,5 +17,6 @@ setup(
     author='Daniel Williams',
     author_email='dwilliams@inovonics.com',
     license='MIT',
+    install_requires=['redis', 'redpipe'],
     packages=['inovonics.cloud.datastore']
 )
