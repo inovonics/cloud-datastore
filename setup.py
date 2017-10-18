@@ -17,6 +17,6 @@ setup(
     author='Daniel Williams',
     author_email='dwilliams@inovonics.com',
     license='MIT',
-    install_requires=['redis', 'redpipe'],
+    install_requires=[line.strip() for line in open('requirements.txt', 'r')],
     packages=['inovonics.cloud.datastore']
 )
