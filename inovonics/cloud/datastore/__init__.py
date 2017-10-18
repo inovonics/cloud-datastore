@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 # === IMPORTS ===
-from inovonics.cloud.datastore.__version__ import __version__
+from .__version__ import __version__
+
+from .exceptions import DuplicateException, ExistsException, InvalidDataException, NotExistsException
 
 # === GLOBALS ===
 
