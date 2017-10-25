@@ -31,7 +31,7 @@ class TestCasesInoRedis(unittest.TestCase):
         # Write a value to a key
         dstore.redis.set('TESTKEY', 'TESTVALUE')
         # Read the value back from the key
-        test_value = dstore.redis.get('TESTKEY')
+        test_value = dstore.redis.get('TESTKEY').decode('utf-8')
         # Compare the values to make sure everything is happy
         self.logger.debug("test_value: %s, type: %s", test_value, type(test_value))
         self.assertEqual(test_value, 'TESTVALUE')
@@ -50,6 +50,7 @@ class TestCasesInoRedis(unittest.TestCase):
         test_value2 = None
         with redpipe.autoexec() as pipe:
             test_value2 = pipe.get('TESTKEY2')
+        test_value2 = test_value2.decode('utf-8')
         # Compare the values to make sure everything is happy
         self.logger.debug("test_value2: %s, type: %s", test_value2, type(test_value2))
         self.assertEqual(test_value2, 'TESTVALUE2')
