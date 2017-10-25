@@ -6,13 +6,19 @@ from setuptools import setup
 # === GLOBALS ===
 
 # === FUNCTIONS ===
+def get_version():
+    version = {}
+    with open('inovonics/cloud/datastore/__version__.py') as fp:
+        exec(fp.read(), version)
+    #print("version: {}".format(version['__version__']))
+    return version['__version__']
 
 # === CLASSES ===
 
 # === MAIN ===
 setup(
     name='inovonics_cloud_datastore',
-    version='0.1.0.0',
+    version=get_version(),
     description='Basic classes for building a datastore using Redis as a backend.',
     url='https://github.com/inovonics/cloud-datastore',
     keywords=[],
