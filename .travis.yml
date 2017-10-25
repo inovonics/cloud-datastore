@@ -16,7 +16,7 @@ install:
   - pip install -r test_requirements.txt
 
 script:
-  - coverage run --source=inovonics -m unittest -s tests/
+  - coverage run --source=inovonics -m unittest discover -s tests/
 
 after_success:
   - coveralls
