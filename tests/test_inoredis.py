@@ -33,11 +33,28 @@ class TestCasesInoRedis(unittest.TestCase):
         # Read the value back from the key
         test_value = dstore.redis.get('TESTKEY')
         # Compare the values to make sure everything is happy
+        self.logger.debug("test_value: %s, type: %s", test_value, type(test_value))
+        self.assertEqual(test_value, 'TESTVALUE')
         # Flush the database
         dstore.redis.flushdb()
 
     def test_connect_redpipe(self):
-        pass
+        # Connect to the database
+        dstore = InoRedis(host=self.redis_host, port=self.redis_port, db=self.redis_db)
+        # Flush the database
+        dstore.redis.flushdb()
+        # Add an item with a redpipe pipeline
+        with redpipe.autoexec() as pipe:
+            pipe.set('TESTKEY2', 'TESTVALUE2')
+        # Get the item with without a pipeline
+        test_value2 = None
+        with redpipe.autoexec() as pipe:
+            test_value2 = pipe.get('TESTKEY2')
+        # Compare the values to make sure everything is happy
+        self.logger.debug("test_value2: %s, type: %s", test_value2, type(test_value2))
+        self.assertEqual(test_value2, 'TESTVALUE2')
+        # Flush the database
+        dstore.redis.flushdb()
 
     def tearDown(self):
         pass
