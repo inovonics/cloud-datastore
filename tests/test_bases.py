@@ -36,6 +36,7 @@ class TestCasesInoRedis(unittest.TestCase):
         dstore.redis.flushdb()
         # Force deletion of the dstore object (to force garbage collection).  This is due to an issue on the Travis-CI
         # environment of instantiating the next test before the current test is garbage collected.
+        del model_base
         del dstore
 
     def tearDown(self):
