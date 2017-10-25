@@ -22,4 +22,8 @@ class InoRedis:
         # Initialize redpipe connection
         redpipe.connect_redis(self.redis)
 
+    def __del__(self):
+        self.logger.info("Destructing Redis and Redpipe connections.")
+        redpipe.reset()
+
 # === MAIN ===
