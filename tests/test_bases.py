@@ -23,7 +23,7 @@ class TestCasesInoRedis(unittest.TestCase):
         self.redis_port = os.getenv('REDIS_PORT', 6379)
         self.redis_db = os.getenv('REDIS_DB', 0)
 
-    def test_connect_to_db(self):
+    def test_make_model_base(self):
         # Connect to the database
         dstore = InoRedis(host=self.redis_host, port=self.redis_port, db=self.redis_db)
         # Flush the database
