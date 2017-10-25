@@ -38,6 +38,9 @@ class TestCasesInoRedis(unittest.TestCase):
         self.assertEqual(test_value, 'TESTVALUE')
         # Flush the database
         dstore.redis.flushdb()
+        # Force deletion of the dstore object (to force garbage collection).  This is due to an issue on the Travis-CI
+        # environment of instantiating the next test before the current test is garbage collected.
+        del dstore
 
     def test_connect_redpipe(self):
         # Connect to the database
@@ -57,6 +60,9 @@ class TestCasesInoRedis(unittest.TestCase):
         self.assertEqual(test_value2, 'TESTVALUE2')
         # Flush the database
         dstore.redis.flushdb()
+        # Force deletion of the dstore object (to force garbage collection).  This is due to an issue on the Travis-CI
+        # environment of instantiating the next test before the current test is garbage collected.
+        del dstore
 
     def tearDown(self):
         pass
