@@ -9,6 +9,7 @@ import unittest
 from inovonics.cloud.datastore import InoRedis
 
 # === GLOBALS ===
+logging.basicConfig(level=logging.DEBUG)
 
 # === FUNCTIONS ===
 
