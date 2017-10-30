@@ -25,6 +25,7 @@ class InoObjectBase:
     custom_fields = []
     
     def __init__(self, dictionary=None):
+        self.logger = logging.getLogger(type(self).__name__)
         # Setup all of the other attributes so they can be written directly
         for field in self.fields + self.hidden_fields:
             setattr(self, field, '')
