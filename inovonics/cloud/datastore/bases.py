@@ -19,16 +19,16 @@ class InoModelBase:
 # FIXME: Add an object base class here
 class InoObjectBase:
     # Override fields and hidden_fields to give objects attributes
-    # The 'oid' field does not need to be included in the 'fields' list.  It's built in.
-    fields = []
+    # 'oid' is the object's unique identifier.  This prevents collisions with the id() method.
+    fields = ['oid']
     hidden_fields = []
     custom_fields = []
     
     def __init__(self, dictionary=None):
-        self.oid = str(uuid.uuid4())
         # Setup all of the other attributes so they can be written directly
         for field in self.fields + self.hidden_fields:
             setattr(self, field, '')
+        setattr(self, 'oid', str(uuid.uuid4()))
         if dictionary:
             self.set_fields(dictionary)
 
