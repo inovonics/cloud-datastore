@@ -5,7 +5,7 @@ from .__version__ import __version__
 
 from .exceptions import DuplicateException, ExistsException, InvalidDataException, NotExistsException
 from .inoredis import InoRedis
-from .bases import InoModelBase
+from .bases import InoModelBase, InoObjectBase
 
 # === GLOBALS ===
 
