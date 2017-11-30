@@ -56,6 +56,7 @@ class TestCasesInoObjectBase(unittest.TestCase):
         object_base = InoObjectBase()
         # Make sure something was created
         self.assertIsNotNone(object_base)
+        self.assertIsInstance(object_base, InoObjectBase)
 
     def test_make_object_base_with_bool(self):
         # Create a subclass specifying a bool field
@@ -65,6 +66,7 @@ class TestCasesInoObjectBase(unittest.TestCase):
         test_bool_1 = TestBool({'bool1': False})
         # Make sure something was created
         self.assertIsNotNone(test_bool_1)
+        self.assertIsInstance(test_bool_1, InoObjectBase)
         # Make sure the bool is correctly set
         self.assertFalse(test_bool_1.bool1)
         # Get the dictionary of values
@@ -82,6 +84,7 @@ class TestCasesInoObjectBase(unittest.TestCase):
         test_dt_1 = TestDatetime({'datetime1': tmp_datetime.isoformat()})
         # Make sure something was created
         self.assertIsNotNone(test_dt_1)
+        self.assertIsInstance(test_dt_1, InoObjectBase)
         # Make sure the datetime is correctly set
         self.assertEqual(test_dt_1.datetime1, tmp_datetime)
         # Get the dictionary of values
