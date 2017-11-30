@@ -36,8 +36,6 @@ class InoObjectBase:
 
     allowed_types = ['bool', 'datetime', 'float', 'int', 'str', 'uuid']
 
-    validation_methods = []
-
     def __init__(self, dictionary=None):
         self.logger = logging.getLogger(type(self).__name__)
         # Setup all of the attributes so they can be written directly
@@ -56,8 +54,8 @@ class InoObjectBase:
                 setattr(self, field['name'], uuid.uuid4())
             else:
                 raise TypeError
-        # Add any needed validation methods
-        self.validation_methods.append(self._validate_oid)
+        # Setup the base validation methods.  Any validation methods should be added here.
+        self.validation_methods = [self._validate_oid]
         # If a dictionary was passed in, pass it to set_fields
         if dictionary:
             self.set_fields(dictionary)
