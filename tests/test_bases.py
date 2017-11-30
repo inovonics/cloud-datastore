@@ -114,7 +114,7 @@ class TestCasesInoObjectBase(unittest.TestCase):
         # Create a int that we can use throughout the test
         tmp_int = 147
         # Create a subclass specifying a int field
-        class TestDatetime(InoObjectBase):
+        class TestInt(InoObjectBase):
             fields = [{'name': 'oid', 'type': 'uuid'}, {'name': 'int1', 'type': 'int'}]
         # Create a TestInt object
         test_int_1 = TestInt({'int1': tmp_int})
