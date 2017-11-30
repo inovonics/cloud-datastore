@@ -102,10 +102,12 @@ class InoObjectBase:
         # and return a validation error.  If an error (not None) is returned, it's added to the list of errors, which is
         # returned from this function.
         errors = []
+        self.logger.debug("self.validation_methods: %s", self.validation_methods)
         for v_method in self.validation_methods:
             error = v_method()
             if error is not None:
                 errors.append(error)
+        self.logger.debug("errors: %s", errors)
         if len(errors):
             raise InvalidDataException("Validation Error List: {}".format(errors))
 
