@@ -77,7 +77,7 @@ class TestCasesInoObjectBase(unittest.TestCase):
     def test_make_object_base_with_datetime(self):
         # Create a datetime that we can use throughout the test
         tmp_datetime = datetime.datetime.utcnow()
-        # Create a subclass specifying a bool field
+        # Create a subclass specifying a datetime field
         class TestDatetime(InoObjectBase):
             fields = [{'name': 'oid', 'type': 'uuid'}, {'name': 'datetime1', 'type': 'datetime'}]
         # Create a TestDatetime object
@@ -91,6 +91,60 @@ class TestCasesInoObjectBase(unittest.TestCase):
         dict_test_dt_1 = test_dt_1.get_dict()
         # Make sure the datetime is correctly set
         self.assertEqual(dict_test_dt_1['datetime1'], tmp_datetime.isoformat())
+
+    def test_make_object_base_with_float(self):
+        # Create a float that we can use throughout the test
+        tmp_float = 0.123
+        # Create a subclass specifying a float field
+        class TestFloat(InoObjectBase):
+            fields = [{'name': 'oid', 'type': 'uuid'}, {'name': 'float1', 'type': 'float'}]
+        # Create a TestFloat object
+        test_float_1 = TestFloat({'float1': tmp_float})
+        # Make sure something was created
+        self.assertIsNotNone(test_float_1)
+        self.assertIsInstance(test_float_1, InoObjectBase)
+        # Make sure the float is correctly set
+        self.assertEqual(test_float_1.float1, tmp_float)
+        # Get the dictionary of values
+        dict_test_float_1 = test_float_1.get_dict()
+        # Make sure the float is correctly set
+        self.assertEqual(dict_test_float_1['float1'], tmp_float)
+
+    def test_make_object_base_with_int(self):
+        # Create a int that we can use throughout the test
+        tmp_int = 147
+        # Create a subclass specifying a int field
+        class TestDatetime(InoObjectBase):
+            fields = [{'name': 'oid', 'type': 'uuid'}, {'name': 'int1', 'type': 'int'}]
+        # Create a TestInt object
+        test_int_1 = TestInt({'int1': tmp_int})
+        # Make sure something was created
+        self.assertIsNotNone(test_int_1)
+        self.assertIsInstance(test_int_1, InoObjectBase)
+        # Make sure the int is correctly set
+        self.assertEqual(test_int_1.int1, tmp_int)
+        # Get the dictionary of values
+        dict_test_int_1 = test_int_1.get_dict()
+        # Make sure the int is correctly set
+        self.assertEqual(dict_test_int_1['int1'], tmp_int)
+
+    def test_make_object_base_with_str(self):
+        # Create a string that we can use throughout the test
+        tmp_str = 'Test string'
+        # Create a subclass specifying a string field
+        class TestStr(InoObjectBase):
+            fields = [{'name': 'oid', 'type': 'uuid'}, {'name': 'str1', 'type': 'str'}]
+        # Create a TestStr object
+        test_str_1 = TestStr({'str1': tmp_str})
+        # Make sure something was created
+        self.assertIsNotNone(test_str_1)
+        self.assertIsInstance(test_str_1, InoObjectBase)
+        # Make sure the string is correctly set
+        self.assertEqual(test_str_1.str1, tmp_str)
+        # Get the dictionary of values
+        dict_test_str_1 = test_str_1.get_dict()
+        # Make sure the string is correctly set
+        self.assertEqual(dict_test_str_1['str1'], tmp_str)
 
     def tearDown(self):
         pass
