@@ -108,7 +108,7 @@ class InoObjectBase:
             if error is not None:
                 errors.append(error)
         self.logger.debug("errors: %s", errors)
-        if len(errors):
+        if errors:
             raise InvalidDataException("Validation Error List: {}".format(errors))
 
     def _validate_oid(self):
