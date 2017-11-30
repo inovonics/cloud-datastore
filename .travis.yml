@@ -16,6 +16,7 @@ install:
   - pip install -r test_requirements.txt
 
 script:
+  - pylint inovonics
   - coverage run --source=inovonics -m unittest discover -s tests/
 
 after_success:
