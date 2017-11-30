@@ -5,7 +5,7 @@ import logging
 import os
 import unittest
 
-from inovonics.cloud.datastore import InoRedis, InoModelBase
+from inovonics.cloud.datastore import InoRedis, InoModelBase, InoObjectBase
 
 # === GLOBALS ===
 logging.basicConfig(level=logging.DEBUG)
@@ -38,6 +38,23 @@ class TestCasesInoRedis(unittest.TestCase):
         # environment of instantiating the next test before the current test is garbage collected.
         del model_base
         del dstore
+
+    def tearDown(self):
+        pass
+
+class TestCasesInoObjectBase(unittest.TestCase):
+    def __init__(self, *args, **kwargs):
+        self.logger = logging.getLogger(type(self).__name__)
+        super().__init__(*args, **kwargs)
+
+    def setUp(self):
+        pass
+
+    def test_make_object_base(self):
+        # Create an object base object
+        object_base = InoObjectBase()
+        # Make sure something was created
+        self.assertIsNotNone(object_base)
 
     def tearDown(self):
         pass
