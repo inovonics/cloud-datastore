@@ -9,6 +9,8 @@ import uuid
 
 import dateutil.parser
 
+from inovonics.cloud.datastore import InvalidDataException
+
 # === GLOBALS ===
 
 # === FUNCTIONS ===
@@ -58,7 +60,9 @@ class InoObjectBase:
         self.validation_methods.append(self._validate_oid)
         # If a dictionary was passed in, pass it to set_fields
         if dictionary:
-            self.set_fields(dictionary)
+            errors = self.set_fields(dictionary)
+            if errors:
+                raise InvalidDataException
 
     def __repr__(self):
         return "<{}: {}>".format(type(self), getattr(self, 'oid'))
