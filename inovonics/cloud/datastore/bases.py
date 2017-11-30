@@ -34,9 +34,11 @@ class InoObjectBase:
 
     allowed_types = ['bool', 'datetime', 'float', 'int', 'str', 'uuid']
 
+    validation_methods = []
+
     def __init__(self, dictionary=None):
         self.logger = logging.getLogger(type(self).__name__)
-        # Setup all of the other attributes so they can be written directly
+        # Setup all of the attributes so they can be written directly
         for field in self.fields:
             if field['type'] == 'bool':
                 setattr(self, field['name'], False)
@@ -52,6 +54,9 @@ class InoObjectBase:
                 setattr(self, field['name'], uuid.uuid4())
             else:
                 raise TypeError
+        # Add any needed validation methods
+        validation_methods.append(self._validate_oid)
+        # If a dictionary was passed in, pass it to set_fields
         if dictionary:
             self.set_fields(dictionary)
 
@@ -91,6 +96,20 @@ class InoObjectBase:
         return self._validate_fields()
 
     def _validate_fields(self):
-        raise NotImplementedError
+        # This calls each of the methods listed in the validation_methods list.  Each listed method should check a value
+        # and return a validation error.  If an error (not None) is returned, it's added to the list of errors, which is
+        # returned from this function.
+        errors = []
+        for v_method in validation_methods:
+            error = v_method()
+            if error is not None:
+                errors.append(error)
+        return errors
+
+    def _validate_oid(self):
+        # Verify the oid is a UUID type variable
+        if type(self.oid) != uuid.UUID:
+            return "oid not of type UUID"
+        return None
 
 # === MAIN ===
