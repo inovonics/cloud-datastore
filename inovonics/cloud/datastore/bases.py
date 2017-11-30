@@ -80,8 +80,10 @@ class InoObjectBase:
     def set_fields(self, dictionary):
         if dictionary:
             for field in dictionary:
+                self.logger.debug("field: %s", field)
                 if field in [i['name'] for i in self.fields]:
                     field_entry = [i for i in self.fields if i['name'] == field][0]
+                    self.logger.debug("field_entry: %s", field_entry)
                     if field_entry['type'] == 'datetime':
                         setattr(self, field_entry['name'], dateutil.parser.parse(dictionary[field]))
                     elif field_entry['type'] == 'uuid':
