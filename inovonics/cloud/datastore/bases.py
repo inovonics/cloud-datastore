@@ -60,9 +60,7 @@ class InoObjectBase:
         self.validation_methods.append(self._validate_oid)
         # If a dictionary was passed in, pass it to set_fields
         if dictionary:
-            errors = self.set_fields(dictionary)
-            if errors:
-                raise InvalidDataException
+            self.set_fields(dictionary)
 
     def __repr__(self):
         return "<{}: {}>".format(type(self), getattr(self, 'oid'))
@@ -108,7 +106,8 @@ class InoObjectBase:
             error = v_method()
             if error is not None:
                 errors.append(error)
-        return errors
+        if len(errors):
+            raise InvalidDataException("Validation Error List: {}".format(errors))
 
     def _validate_oid(self):
         # Verify the oid is a UUID type variable
