@@ -2,11 +2,12 @@
 
 # === IMPORTS ===
 import datetime
-import dateutil.parser
 import logging
-import redis
-import redpipe
+#import redis
+#import redpipe
 import uuid
+
+import dateutil.parser
 
 # === GLOBALS ===
 
@@ -14,25 +15,25 @@ import uuid
 
 # === CLASSES ===
 class InoModelBase:
+    # pylint: disable=too-few-public-methods
     def __init__(self, datastore):
         self.datastore = datastore  # Should be of type InoRedis or a derivative.
         self.logger = logging.getLogger(type(self).__name__)
 
-# FIXME: Add an object base class here
 class InoObjectBase:
     # Override fields to give objects attributes
     # Each field should be specified in the 'fields' list by a dictionary containing two entries: 'name' and 'type'.
-    # - 'name' can be a string and will be used as the label in the database.  This should match the names/labels used 
+    # - 'name' can be a string and will be used as the label in the database.  This should match the names/labels used
     # in the DB* objects.
     # - 'type' should be one of the following: 'bool', 'datetime', 'int', 'str', 'uuid'
-    
+
     # A field with name 'oid' is the object's unique identifier.  This had be named to prevents collisions with the id()
     # method.
     fields = [{'name': 'oid', 'type': 'uuid'}]
     custom_fields = [] # All custom fields are strings.
-    
+
     allowed_types = ['bool', 'datetime', 'float', 'int', 'str', 'uuid']
-    
+
     def __init__(self, dictionary=None):
         self.logger = logging.getLogger(type(self).__name__)
         # Setup all of the other attributes so they can be written directly
@@ -55,7 +56,7 @@ class InoObjectBase:
             self.set_fields(dictionary)
 
     def __repr__(self):
-        return "<{}: {}>".format(type(self), self.oid)
+        return "<{}: {}>".format(type(self), getattr(self, 'oid'))
 
     def get_dict(self):
         # Get all fields in the object as a dict (excluding hidden fields)
@@ -90,8 +91,6 @@ class InoObjectBase:
         return self._validate_fields()
 
     def _validate_fields(self):
-        # Override this function to provide field validation for the objects
-        errors = []
-        return errors
+        raise NotImplementedError
 
 # === MAIN ===
