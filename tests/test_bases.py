@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # === IMPORTS ===
+import datetime
 import logging
 import os
 import unittest
@@ -70,6 +71,23 @@ class TestCasesInoObjectBase(unittest.TestCase):
         dict_test_bool_1 = test_bool_1.get_dict()
         # Make sure the bool is correctly set
         self.assertFalse(dict_test_bool_1['bool1'])
+
+    def test_make_object_base_with_datetime(self):
+        # Create a datetime that we can use throughout the test
+        tmp_datetime = datetime.datetime.utcnow()
+        # Create a subclass specifying a bool field
+        class TestDatetime(InoObjectBase):
+            fields = [{'name': 'oid', 'type': 'uuid'}, {'name': 'datetime1', 'type': 'datetime'}]
+        # Create a TestDatetime object
+        test_dt_1 = TestDatetime({'datetime1': tmp_datetime.isoformat()})
+        # Make sure something was created
+        self.assertIsNotNone(test_dt_1)
+        # Make sure the datetime is correctly set
+        self.assertEqual(test_dt_1.datetime1, tmp_datetime)
+        # Get the dictionary of values
+        dict_test_dt_1 = test_dt_1.get_dict()
+        # Make sure the datetime is correctly set
+        self.assertEqual(dict_test_dt_1['datetime1'], tmp_datetime.isoformat())
 
     def tearDown(self):
         pass

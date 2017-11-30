@@ -70,22 +70,21 @@ class InoObjectBase:
         return dictionary
 
     def set_fields(self, dictionary):
-        if not dictionary:
-            return self._validate_fields()
-        for field in dictionary:
-            if field in [i['name'] for i in self.fields]:
-                field_entry = [i for i in self.fields if i['name'] == field][0]
-                if field_entry['type'] == 'datetime':
-                    setattr(self, field_entry['name'], dateutil.parser.parse(dictionary[field]))
-                elif field_entry['type'] == 'uuid':
-                    setattr(self, field_entry['name'], uuid.UUID(dictionary[field]))
-                else:
-                    setattr(self, field_entry['name'], dictionary[field])
-            elif field in self.custom_fields:
-                setattr(self, field, dictionary[field])
-            elif field.startswith('custom_'):
-                self.custom_fields.append(field)
-                setattr(self, field, dictionary[field])
+        if dictionary:
+            for field in dictionary:
+                if field in [i['name'] for i in self.fields]:
+                    field_entry = [i for i in self.fields if i['name'] == field][0]
+                    if field_entry['type'] == 'datetime':
+                        setattr(self, field_entry['name'], dateutil.parser.parse(dictionary[field]))
+                    elif field_entry['type'] == 'uuid':
+                        setattr(self, field_entry['name'], uuid.UUID(dictionary[field]))
+                    else:
+                        setattr(self, field_entry['name'], dictionary[field])
+                elif field in self.custom_fields:
+                    setattr(self, field, dictionary[field])
+                elif field.startswith('custom_'):
+                    self.custom_fields.append(field)
+                    setattr(self, field, dictionary[field])
         return self._validate_fields()
 
     def _validate_fields(self):
