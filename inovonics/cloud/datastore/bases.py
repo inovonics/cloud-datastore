@@ -55,7 +55,7 @@ class InoObjectBase:
             else:
                 raise TypeError
         # Add any needed validation methods
-        validation_methods.append(self._validate_oid)
+        self.validation_methods.append(self._validate_oid)
         # If a dictionary was passed in, pass it to set_fields
         if dictionary:
             self.set_fields(dictionary)
@@ -100,7 +100,7 @@ class InoObjectBase:
         # and return a validation error.  If an error (not None) is returned, it's added to the list of errors, which is
         # returned from this function.
         errors = []
-        for v_method in validation_methods:
+        for v_method in self.validation_methods:
             error = v_method()
             if error is not None:
                 errors.append(error)
@@ -108,7 +108,7 @@ class InoObjectBase:
 
     def _validate_oid(self):
         # Verify the oid is a UUID type variable
-        if type(self.oid) != uuid.UUID:
+        if isinstance(getattr(self, 'oid'), uuid.UUID):
             return "oid not of type UUID"
         return None
 
