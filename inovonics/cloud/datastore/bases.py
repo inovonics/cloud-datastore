@@ -113,7 +113,7 @@ class InoObjectBase:
 
     def _validate_oid(self):
         # Verify the oid is a UUID type variable
-        if isinstance(getattr(self, 'oid'), uuid.UUID):
+        if not isinstance(getattr(self, 'oid'), uuid.UUID):
             return "oid not of type uuid.UUID but type {}, value {}".format(type(getattr(self, 'oid')), getattr(self, 'oid'))
         return None
 
