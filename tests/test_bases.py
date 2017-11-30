@@ -56,6 +56,21 @@ class TestCasesInoObjectBase(unittest.TestCase):
         # Make sure something was created
         self.assertIsNotNone(object_base)
 
+    def test_make_object_base_with_bool(self):
+        # Create a subclass specifying a bool field
+        class TestBool(InoObjectBase):
+            fields = [{'name': 'oid', 'type': 'uuid'}, {'name': 'bool1', 'type': 'bool'}]
+        # Create a TestBool object
+        test_bool_1 = TestBool({'bool1': False})
+        # Make sure something was created
+        self.assertIsNotNone(test_bool_1)
+        # Make sure the bool is correctly set
+        self.assertFalse(test_bool_1.bool1)
+        # Get the dictionary of values
+        dict_test_bool_1 = test_bool_1.get_dict()
+        # Make sure the bool is correctly set
+        self.assertFalse(dict_test_bool_1['bool1'])
+
     def tearDown(self):
         pass
 
