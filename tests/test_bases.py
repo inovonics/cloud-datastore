@@ -146,6 +146,24 @@ class TestCasesInoObjectBase(unittest.TestCase):
         # Make sure the string is correctly set
         self.assertEqual(dict_test_str_1['str1'], tmp_str)
 
+    def test_make_object_base_with_uuid(self):
+        # Create a uuid that we can use throughout the test
+        tmp_uuid = uuid.uuid4()
+        # Create a subclass specifying a uuid field
+        class TestUUID(InoObjectBase):
+            fields = [{'name': 'oid', 'type': 'uuid'}, {'name': 'uuid1', 'type': 'str'}]
+        # Create a TestUUID object
+        test_uuid_1 = TestUUID({'uuid1': str(tmp_uuid)})
+        # Make sure something was created
+        self.assertIsNotNone(test_uuid_1)
+        self.assertIsInstance(test_uuid_1, InoObjectBase)
+        # Make sure the uuid is correctly set
+        self.assertEqual(test_uuid_1.uuid1, tmp_uuid)
+        # Get the dictionary of values
+        dict_test_uuid_1 = test_uuid_1.get_dict()
+        # Make sure the uuid is correctly set
+        self.assertEqual(dict_test_uuid_1['uuid1'], str(tmp_uuid))
+
     def test_make_object_base_with_custom_field(self):
         # Create a string that we can use throughout the test
         tmp_custom_str = 'Custom test string'

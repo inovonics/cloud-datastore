@@ -54,7 +54,7 @@ class InoObjectBase:
             else:
                 raise TypeError
         # Setup the base validation methods.  Any validation methods should be added here.
-        self.validation_methods = [self._validate_oid]
+        self.validation_methods = [self._validate_oid, self._validate_custom]
         # Setup the custom fields list
         self.fields_custom = []
         # If a dictionary was passed in, pass it to set_fields
