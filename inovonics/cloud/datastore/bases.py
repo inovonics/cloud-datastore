@@ -32,7 +32,6 @@ class InoObjectBase:
     # A field with name 'oid' is the object's unique identifier.  This had be named to prevents collisions with the id()
     # method.
     fields = [{'name': 'oid', 'type': 'uuid'}]
-    custom_fields = [] # All custom fields are strings.
 
     allowed_types = ['bool', 'datetime', 'float', 'int', 'str', 'uuid']
 
@@ -56,6 +55,8 @@ class InoObjectBase:
                 raise TypeError
         # Setup the base validation methods.  Any validation methods should be added here.
         self.validation_methods = [self._validate_oid]
+        # Setup the custom fields list
+        self.fields_custom = []
         # If a dictionary was passed in, pass it to set_fields
         if dictionary:
             self.set_fields(dictionary)
@@ -73,7 +74,7 @@ class InoObjectBase:
                 dictionary[field['name']] = str(getattr(self, field['name']))
             else:
                 dictionary[field['name']] = getattr(self, field['name'])
-        for field in self.custom_fields:
+        for field in self.fields_custom:
             dictionary[field] = getattr(self, field)
         return dictionary
 
@@ -90,10 +91,10 @@ class InoObjectBase:
                         setattr(self, field_entry['name'], uuid.UUID(dictionary[field]))
                     else:
                         setattr(self, field_entry['name'], dictionary[field])
-                elif field in self.custom_fields:
+                elif field in self.fields_custom:
                     setattr(self, field, dictionary[field])
                 elif field.startswith('custom_'):
-                    self.custom_fields.append(field)
+                    self.fields_custom.append(field)
                     setattr(self, field, dictionary[field])
         return self._validate_fields()
 
@@ -116,6 +117,14 @@ class InoObjectBase:
         if not isinstance(getattr(self, 'oid'), uuid.UUID):
             return "oid not of type uuid.UUID but type {}, value {}".format(
                 type(getattr(self, 'oid')), getattr(self, 'oid'))
+        return None
+
+    def _validate_custom(self):
+        # Verify the custom fields are type string
+        for field in self.fields_custom:
+            if not isinstance(getattr(self, field), str):
+                return "{} not of type str but type {}, value {}".format(
+                    field, type(getattr(self, field)), getattr(self, field))
         return None
 
 # === MAIN ===

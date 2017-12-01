@@ -146,6 +146,21 @@ class TestCasesInoObjectBase(unittest.TestCase):
         # Make sure the string is correctly set
         self.assertEqual(dict_test_str_1['str1'], tmp_str)
 
+    def test_make_object_base_with_custom_field(self):
+        # Create a string that we can use throughout the test
+        tmp_custom_str = 'Custom test string'
+        # Create an object base object with a custom field
+        object_base = InoObjectBase({'custom_string': tmp_custom_str})
+        # Make sure something was created
+        self.assertIsNotNone(object_base)
+        self.assertIsInstance(object_base, InoObjectBase)
+        # Make sure the string is correctly set
+        self.assertEqual(object_base.custom_string, tmp_custom_str)
+        # Get the dictionary of values
+        dict_object_base = object_base.get_dict()
+        # Make sure the string is correctly set
+        self.assertEqual(dict_object_base['custom_string'], tmp_custom_str)
+
     def tearDown(self):
         pass
 
