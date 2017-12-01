@@ -152,7 +152,7 @@ class TestCasesInoObjectBase(unittest.TestCase):
         tmp_uuid = uuid.uuid4()
         # Create a subclass specifying a uuid field
         class TestUUID(InoObjectBase):
-            fields = [{'name': 'oid', 'type': 'uuid'}, {'name': 'uuid1', 'type': 'str'}]
+            fields = [{'name': 'oid', 'type': 'uuid'}, {'name': 'uuid1', 'type': 'uuid'}]
         # Create a TestUUID object
         test_uuid_1 = TestUUID({'uuid1': str(tmp_uuid)})
         # Make sure something was created
