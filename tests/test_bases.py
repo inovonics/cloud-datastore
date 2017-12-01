@@ -5,6 +5,7 @@ import datetime
 import logging
 import os
 import unittest
+import uuid
 
 from inovonics.cloud.datastore import InoRedis, InoModelBase, InoObjectBase
 
