@@ -127,6 +127,8 @@ class InoObjectBase:
             if not isinstance(getattr(self, field), str):
                 return "{} not of type str but type {}, value {}".format(
                     field, type(getattr(self, field)), getattr(self, field))
+            if len(getattr(self, field)) > 4096:
+                return "Length of field {} greater than 4096.".format(field)
         return None
 
 # === MAIN ===
