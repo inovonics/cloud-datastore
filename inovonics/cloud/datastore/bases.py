@@ -33,7 +33,7 @@ class InoObjectBase:
     # method.
     fields = [{'name': 'oid', 'type': 'uuid'}]
 
-    allowed_types = ['bool', 'datetime', 'float', 'int', 'str', 'uuid']
+    allowed_types = ['bool', 'datetime', 'float', 'int', 'list', 'str', 'uuid']
 
     def __init__(self, dictionary=None):
         self.logger = logging.getLogger(type(self).__name__)
@@ -47,6 +47,8 @@ class InoObjectBase:
                 setattr(self, field['name'], 0.0)
             elif field['type'] == 'int':
                 setattr(self, field['name'], 0)
+            elif field['type'] == 'list':
+                setattr(self, field['name'], [])
             elif field['type'] == 'str':
                 setattr(self, field['name'], '')
             elif field['type'] == 'uuid':

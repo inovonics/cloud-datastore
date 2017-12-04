@@ -129,6 +129,24 @@ class TestCasesInoObjectBase(unittest.TestCase):
         # Make sure the int is correctly set
         self.assertEqual(dict_test_int_1['int1'], tmp_int)
 
+    def test_make_object_base_with_list(self):
+        # Create a list that we can use throughout the test
+        tmp_list = ['Test string one', 'Test string two']
+        # Create a subclass specifying a list field
+        class TestList(InoObjectBase):
+            fields = [{'name': 'oid', 'type': 'uuid'}, {'name': 'list1', 'type': 'list'}]
+        # Create a TestList object
+        test_list_1 = TestList({'list1': tmp_list})
+        # Make sure something was created
+        self.assertIsNotNone(test_list_1)
+        self.assertIsInstance(test_list_1, InoObjectBase)
+        # Make sure the list is correctly set
+        self.assertEqual(test_list_1.list1, tmp_list)
+        # Get the dictionary of values
+        dict_test_list_1 = test_list_1.get_dict()
+        # Make sure the list is correctly set
+        self.assertEqual(dict_test_list_1['list1'], tmp_list)
+
     def test_make_object_base_with_str(self):
         # Create a string that we can use throughout the test
         tmp_str = 'Test string'
