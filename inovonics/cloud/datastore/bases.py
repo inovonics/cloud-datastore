@@ -6,6 +6,8 @@ import logging
 #import redis
 #import redpipe
 import uuid
+import sys
+import re
 
 import dateutil.parser
 
@@ -131,4 +133,158 @@ class InoObjectBase:
                 return "Length of field {} greater than 4096.".format(field)
         return None
 
+    def _validate_str(self, field_name, min=0, max=4096, required=True):
+        # String >= min chars and <= max chars
+
+        attr = getattr(self, field_name)
+        # Check for empty
+        if attr is None and not required:
+            return None
+
+        # Check if it is a string
+        if not isinstance(attr, str):
+            return "{} not of type str but type {}, value {}".format(field_name, type(attr), attr)
+
+        # Recheck if it is empty string
+        if len(attr) == 0 and not required:
+            return None
+
+        # Check for permissible lenght if attribute is present
+        if len(attr) < min or len(attr) > max:
+            return "{} must be between {} and {} chars".format(field_name, min, max)
+        return None
+
+    def _validate_email(self, field_name, max=4096, required=True):
+
+        attr = getattr(self, field_name)
+        if attr is None and not required:
+            return None
+
+        # Check if it is a string
+        str_check = self._validate_str(field_name, 0, max, required)
+        if str_check is not None:
+            return str_check
+
+        # Recheck if it is emtpy and not required
+        if len(attr) == 0 and not required:
+            return None
+
+        # Check for the format
+        if re.match('^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$', attr) is None:
+            return "{} must be a valid email".format(field_name)
+
+        return None
+
+    def _validate_int(self, field_name, min=-sys.maxsize-1, max=sys.maxsize, required=True):
+
+        attr = getattr(self, field_name)
+        if attr is None and not required:
+            return None
+
+        # Do an int check
+        if not isinstance(attr, int):
+            return "{} not of type int but type {}, value {}".format(
+                field_name, type(attr), attr)
+
+        # Finally, do a range check
+        if attr < min or attr > max:
+            return "{} must be between {} and {}".format(field_name, min, max)
+        return None
+
+    def _validate_float(self, field_name, min=-sys.float_info.max, max=sys.float_info.max, required=True):
+
+        attr = getattr(self, field_name)
+        if attr is None and not required:
+            return None
+
+        # Do an float check
+        if not isinstance(attr, float):
+            return "{} not of type float but type {}, value {}".format(
+                field_name, type(attr), attr)
+
+        # Finally, do a range check
+        if attr < min or attr > max:
+            return "{} must be between {} and {}".format(field_name, min, max)
+        return None
+
+    def _validate_datetime(self, field_name, min=datetime.datetime.min, max=datetime.datetime.max, required=True):
+
+        attr = getattr(self, field_name)
+        if attr is None and not required:
+            return None
+
+        # Do a datetime check
+        if not isinstance(attr, datetime.datetime):
+            return "{} not of type datetime but type {}, value {}".format(
+                field_name, type(attr), attr)
+
+        # Finally, do a range check
+        if attr < min or attr > max:
+            return "{} must be between {} and {}".format(field_name, min, max)
+        return None
+
+    def _validate_bool(self, field_name, required=True):
+
+        attr = getattr(self, field_name)
+        if attr is None and not required:
+            return None
+
+        # Type check
+        if not isinstance(attr, bool):
+            return "{} not of type bool but type {}, value {}".format(
+                field_name, type(attr), attr)
+        return None
+
+    def _validate_list(self, field_name, min=1, required=True):
+
+        attr = getattr(self, field_name)
+        if attr is None and not required:
+            return None
+
+        # Ensure field_name is present and a list
+        if not isinstance(attr, list):
+            return "{} not of type list but type {}, value {}".format(
+                field_name, type(attr), attr)
+
+        # Recheck for empty when not required
+        if len(attr) == 0 and not required:
+            return None
+
+        # Finally check for min length
+        if len(attr) < min:
+            return "{} should have at least {} elements".format(field_name, min)
+        return None
+
+    def _validate_phone(self, field_name, required=True):
+
+        attr = getattr(self, field_name)
+        if attr is None and not required:
+            return None
+
+        # Check if it is a string
+        str_check=self._validate_str(field_name, min=0, max=30, required=required)
+
+        if str_check is not None:
+            return str_check
+
+        # Check for the length
+        if len(attr) == 0 and not required:
+            return None
+
+        # Check the regex....FIXME
+        if re.match('[0123456789.()#*wp -+].*', attr) is None:
+            return "{} has illegal chars, value {}".format(field_name, attr)
+        #FIXME: This regex needs to be fixed.
+
+        return None
+
+    def _validate_uuid(self, field_name, required=True):
+
+        attr = getattr(self, field_name)
+        if attr is None and not required:
+            return None
+
+        if not isinstance(attr, uuid.UUID):
+            return "{} not of type uuid but type {}, value {}".format(
+                field_name, type(attr), attr)
 # === MAIN ===
