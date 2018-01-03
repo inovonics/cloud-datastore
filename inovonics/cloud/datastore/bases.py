@@ -207,7 +207,7 @@ class InoObjectBase:
             return "{} must be between {} and {}".format(field_name, min, max)
         return None
 
-    def _validate_datetime(self, field_name, min=datetime.datetime.min, max=datetime.datetime.max, required=True):
+    def _validate_datetime(self, field_name, required=True):
 
         attr = getattr(self, field_name)
         if attr is None and not required:
@@ -218,9 +218,6 @@ class InoObjectBase:
             return "{} not of type datetime but type {}, value {}".format(
                 field_name, type(attr), attr)
 
-        # Finally, do a range check
-        if attr < min or attr > max:
-            return "{} must be between {} and {}".format(field_name, min, max)
         return None
 
     def _validate_bool(self, field_name, required=True):
