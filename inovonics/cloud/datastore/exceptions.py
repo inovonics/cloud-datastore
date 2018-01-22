@@ -19,4 +19,10 @@ class InvalidDataException(Exception):
 class NotExistsException(Exception):
     pass
 
+class UnauthorizedException(Exception):
+    pass
+
+class ForbiddenException(Exception):
+    pass
+
 # === MAIN ===
