@@ -268,10 +268,10 @@ class InoObjectBase:
         if len(attr) == 0 and not required:
             return None
 
-        # Check the regex....FIXME
-        if re.match('[0123456789.()#*wp -+].*', attr) is None:
+        # Check the regex....
+        val = re.match('[0123456789.()#*wp \-+]*', attr)
+        if  val is None or val.start() != 0 or val.end() != len(attr):
             return "{} has illegal chars, value {}".format(field_name, attr)
-        #FIXME: This regex needs to be fixed.
 
         return None
 
